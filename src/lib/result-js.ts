@@ -4,6 +4,13 @@ export type TResultCreationProperties<R = unknown, N = null> =
 	| TSuccessResultCreationProperties<R, N>
 	| TErrorResultCreationProperties<N>
 
+/**
+ * A Result class
+ *
+ * @export
+ * @class Result
+ * @template R Type of the value of a successfull result
+ */
 export class Result<R = unknown> {
 	private readonly _error?: Error
 	private readonly _value?: R
@@ -41,6 +48,7 @@ export class Result<R = unknown> {
 	static success<R = unknown>(value: R): Result<R> {
 		return new Result<R>([value, null])
 	}
+
 	static fail<R = unknown>(errorMessage: string): Result<R> {
 		return new Result<R>([null, errorMessage])
 	}

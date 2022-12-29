@@ -28,6 +28,13 @@
 				"jestConfig": "packages/result-js/jest.config.ts",
 				"passWithNoTests": true
 			}
+		},
+		"typedoc": {
+			"executor": "@enio.ai/typedoc:typedoc",
+			"options": {
+				"options": "typedoc.json"
+			},
+			"configurations": {}
 		}
 	},
 	"tags": []
