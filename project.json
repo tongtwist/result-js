@@ -11,7 +11,9 @@
 				"outputPath": "dist/packages/result-js",
 				"main": "packages/result-js/src/index.ts",
 				"tsConfig": "packages/result-js/tsconfig.lib.json",
-				"assets": ["packages/result-js/*.md"]
+				"assets": ["packages/result-js/*.md"],
+				"minify": true,
+				"format": ["esm", "cjs"]
 			}
 		},
 		"publish": {
