@@ -1,5 +1,5 @@
 export type TSuccessResultCreationProperties<R, N> = [R, N]
-export type TErrorResultCreationProperties<N> = [N, string]
+export type TErrorResultCreationProperties<N> = [N, string | Error]
 export type TResultCreationProperties<R = unknown, N = null> =
 	| TSuccessResultCreationProperties<R, N>
 	| TErrorResultCreationProperties<N>
@@ -21,7 +21,7 @@ export class Result<R = unknown> {
 		if (this._ok) {
 			this._value = props[0]!
 		} else {
-			this._error = new Error(props[1]!)
+			this._error = typeof props[1]! === "string" ? new Error(props[1]!) : props[1]!
 		}
 		Object.freeze(this)
 	}
@@ -49,7 +49,7 @@ export class Result<R = unknown> {
 		return new Result<R>([value, null])
 	}
 
-	static fail<R = unknown>(errorMessage: string): Result<R> {
-		return new Result<R>([null, errorMessage])
+	static fail<R = unknown>(err: string | Error): Result<R> {
+		return new Result<R>([null, err])
 	}
 }
