@@ -12,6 +12,7 @@
 				"main": "packages/result-js/src/index.ts",
 				"tsConfig": "packages/result-js/tsconfig.lib.json",
 				"assets": ["packages/result-js/*.md"],
+				"bundle": true,
 				"minify": true,
 				"format": ["esm", "cjs"]
 			}
