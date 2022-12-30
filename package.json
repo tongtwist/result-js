@@ -1,8 +1,49 @@
 {
-	"name": "result-js",
+	"name": "@tongtwist/result-js",
 	"version": "0.0.1",
+	"author": {
+		"name": "Tongtwist",
+		"url": "https://github.com/tongtwist"
+	},
 	"type": "commonjs",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"directories": {
+		"src": "./src",
+		"lib": "./lib"
+	},
+	"files": [
+		"./lib/**/*",
+		"./docs/**/*"
+	],
+	"keywords": [
+		"typescript",
+		"result",
+		"success",
+		"failure",
+		"ok",
+		"error"
+	],
 	"scripts": {
-		"test": "jest"
+		"build:tsc": "tsc",
+		"build:dev": "run-s clean build:tsc",
+		"build": "npm run build:dev",
+		"bundle:custom": "node ./bundle.js",
+		"bundle": "run-s bundle:custom",
+		"clean:docs": "rimraf docs",
+		"clean:lib": "rimraf lib",
+		"clean": "run-p clean:*",
+		"preversion": "run-s bundle test",
+		"version": "git add -A src lib docs tests",
+		"postversion": "git push && git push --tags",
+		"publish:patch": "npm version patch && npm publish",
+		"publish:minor": "npm version minor && npm publish",
+		"publish:major": "npm version major && npm publish",
+		"test": "jest",
+		"watch:src": "tsc --watch --noEmit",
+		"watch": "run-p watch:*"
+	},
+	"engines": {
+		"node": ">= 16.0.0"
 	}
 }
