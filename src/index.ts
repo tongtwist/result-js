@@ -1,1 +1,1 @@
-export * from "./lib/result-js"
+export * from "./Result"

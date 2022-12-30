@@ -1,7 +1,7 @@
-import {Result} from "./result-js"
+import {Result} from "./Result"
 
-describe("result-js", () => {
-	it("should create a correct failure result object, when given an error message", () => {
+describe("Result class", () => {
+	it("should create a correct failure result object, when given an error message string", () => {
 		const msgError = "bam!"
 		const r: Result = Result.fail(msgError)
 		expect(r).toBeInstanceOf(Result)
