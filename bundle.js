@@ -1,4 +1,5 @@
 const {Bundler} = require("@theloop/sheldon-node-module")
+const path = require("path")
 
 async function main() {
 	const bundler = Bundler.create()
@@ -27,7 +28,7 @@ async function main() {
 		.on(Bundler.CleanDirError, (err) => console.error("Bundler: Directory cleaning error", err))
 
 	await bundler
-		.doGenerateModule({nodeFile: "index.js", minify: true})
+		.doGenerateModule({nodeFile: "index.js", minify: true, nodePaths: path.join("..", "..", "..")})
 		.doGenerateTSTypes()
 		.doGenerateDocs()
 		.executeAndContinue()
