@@ -16,7 +16,7 @@ export class Result<R = unknown> {
 	private readonly _value?: R
 	private readonly _ok: boolean
 
-	private constructor(readonly props: TResultCreationProperties<R>) {
+	private constructor(props: TResultCreationProperties<R>) {
 		this._ok = !props[1]
 		if (this._ok) {
 			this._value = props[0]!
