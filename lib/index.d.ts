@@ -3,7 +3,6 @@ declare module '@tongtwist/result-js/Result' {
   export type TErrorResultCreationProperties<N> = [N, string | Error];
   export type TResultCreationProperties<R = unknown, N = null> = TSuccessResultCreationProperties<R, N> | TErrorResultCreationProperties<N>;
   export class Result<R = unknown> {
-      readonly props: TResultCreationProperties<R>;
       private readonly _error?;
       private readonly _value?;
       private readonly _ok;

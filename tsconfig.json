@@ -2,7 +2,6 @@
 	"extends": "../tsconfig.base.json",
 	"compilerOptions": {
 		"outDir": "./lib",
-		"lib": ["ES2016"],
 		"skipLibCheck": true
 	},
 	"include": ["./src/**/*"],
