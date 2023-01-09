@@ -1,38 +1,35 @@
-const {Bundler} = require("@theloop/sheldon-node-module")
-const path = require("path")
+const {Steward} = require("@theloop/sheldon-node-module")
 
 async function main() {
-	const bundler = Bundler.create()
-		.on(Bundler.ExecutionStart, () => console.log(`Bundler: Execution started.`))
-		.on(Bundler.ExecutionEnd, (duration) => console.log(`Bundler: Execution Terminated in ${duration} ms`))
-		.on(Bundler.ExecutionError, (err) => console.error("Bundler: Execution Error", err))
-		.on(Bundler.ModuleGenerationStart, (module) => console.log(`Bundler: Module generation of "${module}" started`))
-		.on(Bundler.ModuleGenerationEnd, (res) =>
-			console.log(`Bundler: Module generation of "${res[0]}" terminated in ${res[1]} ms`),
+	const steward = Steward.create()
+		.on(Steward.ExecutionStart, () => console.log(`Steward: Execution started.`))
+		.on(Steward.ExecutionEnd, (duration) => console.log(`Steward: Execution Terminated in ${duration} ms`))
+		.on(Steward.ExecutionError, (err) => console.error("Steward: Execution Error", err))
+		.on(Steward.ModuleGenerationStart, (module) => console.log(`Steward: Module generation of "${module}" started`))
+		.on(Steward.ModuleGenerationEnd, (res) =>
+			console.log(`Steward: Module generation of "${res[0]}" terminated in ${res[1]} ms`),
 		)
-		.on(Bundler.ModuleGenerationError, (err) => console.error("Bundler: Module generation error", err))
-		.on(Bundler.TSTypesGenerationStart, () => console.log(`Bundler: TS types generation started`))
-		.on(Bundler.TSTypesGenerationEnd, (duration) =>
-			console.log(`Bundler: TS types generation terminated in ${duration} ms`),
+		.on(Steward.ModuleGenerationError, (err) => console.error("Steward: Module generation error", err))
+		.on(Steward.TSTypesGenerationStart, () => console.log(`Steward: TS types generation started`))
+		.on(Steward.TSTypesGenerationEnd, (duration) =>
+			console.log(`Steward: TS types generation terminated in ${duration} ms`),
 		)
-		.on(Bundler.TSTypesGenerationError, (err) => console.error("Bundler: TS types generation error", err))
-		.on(Bundler.DocsGenerationStart, () => console.log(`Bundler: Documentation generation started`))
-		.on(Bundler.DocsGenerationEnd, (duration) =>
-			console.log(`Bundler: Documentation generation terminated in ${duration} ms`),
+		.on(Steward.TSTypesGenerationError, (err) => console.error("Steward: TS types generation error", err))
+		.on(Steward.DocsGenerationStart, () => console.log(`Steward: Documentation generation started`))
+		.on(Steward.DocsGenerationEnd, (duration) =>
+			console.log(`Steward: Documentation generation terminated in ${duration} ms`),
 		)
-		.on(Bundler.DocsGenerationError, (err) => console.error("Bundler: Documentation generation error", err))
-		.on(Bundler.CleanDirStart, (dir) => console.log(`Bundler: Directory cleaning started on "${dir}"`))
-		.on(Bundler.CleanDirEnd, (res) =>
-			console.log(`Bundler: Directory cleaning on "${res[0]}" terminated in ${res[1]} ms`),
+		.on(Steward.DocsGenerationError, (err) => console.error("Steward: Documentation generation error", err))
+		.on(Steward.CleanDirStart, (dir) => console.log(`Steward: Directory cleaning started on "${dir}"`))
+		.on(Steward.CleanDirEnd, (res) =>
+			console.log(`Steward: Directory cleaning on "${res[0]}" terminated in ${res[1]} ms`),
 		)
-		.on(Bundler.CleanDirError, (err) => console.error("Bundler: Directory cleaning error", err))
+		.on(Steward.CleanDirError, (err) => console.error("Steward: Directory cleaning error", err))
 
-	await bundler
-		.doGenerateModule({nodeFile: "index.js", minify: true, nodePaths: path.join("..", "..", "..")})
-		.doGenerateTSTypes()
+	await steward
+		.doGenerateBundle({browserFile: "index.esm.js"})
+		.doGenerateTSTypes({packageJson: [".", "package.json"], esModuleInterop: true, skipLibCheck: true})
 		.doGenerateDocs()
-		.executeAndContinue()
-		.doCleanDir({dir: "./lib", fileExceptions: ["index.js", "index.d.ts"]})
 		.execute()
 }
 
