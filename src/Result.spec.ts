@@ -1,5 +1,26 @@
 import {Result} from "./Result"
 
+/**
+ * Shape spec
+ */
+export type TSuccessResultCreationProperties<R, N> = [R, N]
+export type TErrorResultCreationProperties<N> = [N, string | Error]
+export type TResultCreationProperties<R = unknown, N = null> =
+	| TSuccessResultCreationProperties<R, N>
+	| TErrorResultCreationProperties<N>
+
+export interface IResult<R> {
+	readonly error?: Error
+	readonly value?: R
+	readonly isOk: boolean
+	readonly isSuccess: boolean
+	readonly isError: boolean
+	readonly isFailure: boolean
+}
+
+/**
+ * Logic spec
+ */
 describe("Result class", () => {
 	it("should create a correct failure result object, when given an error message string", () => {
 		const msgError = "bam!"
