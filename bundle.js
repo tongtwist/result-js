@@ -91,7 +91,7 @@ async function main() {
 						.map((m) => `${m.label} ${m.rate}%(${m.num}/${m.tot})`)
 						.join(", ")}-${covColor}`,
 				)
-				const readmeHead = `# sheldon-extension-catalog\n\n![Tests state](${testUrl})\n[![Code coverage](${covUrl})](https://theloop.github.io/sheldon-extension-catalog/coverage/)\n\n## Description\n`
+				const readmeHead = `# sheldon-extension-catalog\n\n![Tests state](${testUrl})\n![Code coverage](${covUrl})\n\n## Description\n`
 				const readme = await readFile("README.md", {encoding: "utf8"})
 				const readmeParts = readme.split(`## Description\n\n`)
 				readmeParts[0] = readmeHead
