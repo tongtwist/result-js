@@ -5,6 +5,10 @@
 		"name": "Tongtwist",
 		"url": "https://github.com/tongtwist"
 	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tongtwist/result-js.git"
+	},
 	"type": "commonjs",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
@@ -26,24 +30,29 @@
 	],
 	"scripts": {
 		"build:tsc": "tsc",
-		"build:dev": "run-s clean build:tsc",
+		"build:dev": "run-s clean build:tsc test",
 		"build": "npm run build:dev",
-		"bundle:custom": "node ./bundle.js",
-		"bundle": "run-s bundle:custom",
+		"bundle": "node ./bundle.js",
 		"clean:docs": "rimraf docs",
 		"clean:lib": "rimraf lib",
-		"clean": "run-p clean:*",
-		"preversion": "run-s bundle test",
+		"clean:spec-js": "rm -f lib/*.spec.js && rm -f lib/*.spec.js.map",
+		"clean": "run-p clean:docs clean:lib",
+		"preversion": "run-s bundle test:publish",
 		"version": "git add -A src lib docs tests",
 		"postversion": "git push && git push --tags",
 		"publish:patch": "npm version patch && npm publish",
 		"publish:minor": "npm version minor && npm publish",
 		"publish:major": "npm version major && npm publish",
+		"test:publish": "jest --coverage --json > coverage.json",
 		"test": "jest",
+		"moveCoverage": "mv coverage docs/",
 		"watch:src": "tsc --watch --noEmit",
 		"watch": "run-p watch:*"
 	},
 	"engines": {
 		"node": ">= 16.0.0"
+	},
+	"devDependencies": {
+		"@theloop/sheldon-node-module": "^0.1.0"
 	}
 }

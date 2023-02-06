@@ -1,7 +1,5 @@
-export type TSuccessResultCreationProperties<R, N> = [R, N];
-export type TErrorResultCreationProperties<N> = [N, string | Error];
-export type TResultCreationProperties<R = unknown, N = null> = TSuccessResultCreationProperties<R, N> | TErrorResultCreationProperties<N>;
-export declare class Result<R = unknown> {
+import type { IResult } from "./Result.spec";
+export declare class Result<R = unknown> implements IResult<R> {
     private readonly _error?;
     private readonly _value?;
     private readonly _ok;
