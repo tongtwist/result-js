@@ -35,7 +35,7 @@
 		"bundle": "node ./bundle.js",
 		"clean:docs": "rimraf docs",
 		"clean:lib": "rimraf lib",
-		"clean:spec-js": "rm -f lib/*.spec.js && rm -f lib/*.spec.js.map",
+		"clean:spec-js": "rimraf lib/**/*.spec.js && rimraf lib/**/*.js.map",
 		"clean": "run-p clean:docs clean:lib",
 		"preversion": "run-s bundle test:publish",
 		"version": "git add -A src lib docs tests",
