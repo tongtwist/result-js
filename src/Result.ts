@@ -1,5 +1,18 @@
+import {z} from "zod"
 import type {TResultCreationProperties} from "./CreationProperties.spec"
 import type {IResult} from "./Result.spec"
+
+export function resultSchema<R = unknown>(resultTypeSchema?: z.ZodType<R>) {
+	return z.object({
+		error: z.instanceof(Error).optional(),
+		value: (resultTypeSchema ?? z.unknown()).optional(),
+		isOk: z.boolean(),
+		isSuccess: z.boolean(),
+		isError: z.boolean(),
+		isFailure: z.boolean(),
+	})
+}
+export type TResultSchema<R = unknown> = z.infer<ReturnType<typeof resultSchema<R>>>
 
 /**
  * A Result class

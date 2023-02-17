@@ -1,7 +1,7 @@
 export default {
 	displayName: "@tongtwist/result-js",
-	testMatch: ["**/?(*.)+(spec|test).[jt]s?(x)"],
-	moduleFileExtensions: ["ts", "js"],
+	testMatch: ["**/?(*.)+(spec|test).ts?(x)"],
+	moduleFileExtensions: ["ts", "js", "json"],
 	coverageReporters: ["html"],
 	transform: {
 		"^.+\\.(ts|js|html)$": [

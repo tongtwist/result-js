@@ -28,7 +28,31 @@ declare module "Result.spec" {
     }
 }
 declare module "Result" {
+    import { z } from "zod";
     import type { IResult } from "Result.spec";
+    export function resultSchema<R = unknown>(resultTypeSchema?: z.ZodType<R>): z.ZodObject<{
+        error: z.ZodOptional<z.ZodType<Error, z.ZodTypeDef, Error>>;
+        value: z.ZodOptional<z.ZodType<R, z.ZodTypeDef, R>> | z.ZodOptional<z.ZodUnknown>;
+        isOk: z.ZodBoolean;
+        isSuccess: z.ZodBoolean;
+        isError: z.ZodBoolean;
+        isFailure: z.ZodBoolean;
+    }, "strip", z.ZodTypeAny, {
+        value?: unknown;
+        error?: Error | undefined;
+        isOk: boolean;
+        isSuccess: boolean;
+        isError: boolean;
+        isFailure: boolean;
+    }, {
+        value?: unknown;
+        error?: Error | undefined;
+        isOk: boolean;
+        isSuccess: boolean;
+        isError: boolean;
+        isFailure: boolean;
+    }>;
+    export type TResultSchema<R = unknown> = z.infer<ReturnType<typeof resultSchema<R>>>;
     /**
      * A Result class
      *
