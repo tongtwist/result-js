@@ -91,7 +91,7 @@ async function main() {
 						.map((m) => `${m.label} ${m.rate}%(${m.num}/${m.tot})`)
 						.join(", ")}-${covColor}`,
 				)
-				const readmeHead = `# result-js\n\n![Tests state](${testUrl})\n![Code coverage](${covUrl})\n\n## Description\n`
+				const readmeHead = `# result-js\n\n![Tests state](${testUrl})\n[![Code coverage](${covUrl})](https://tongtwist.github.io/result-js/coverage/)\n\n## Description\n`
 				const readme = await readFile("README.md", {encoding: "utf8"})
 				const readmeParts = readme.split(`## Description\n\n`)
 				readmeParts[0] = readmeHead
