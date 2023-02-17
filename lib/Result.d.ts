@@ -10,6 +10,6 @@ export declare class Result<R = unknown> implements IResult<R> {
     get isSuccess(): boolean;
     get isError(): boolean;
     get isFailure(): boolean;
-    static success<R = unknown>(value: R): Result<R>;
+    static success<R>(value: R): Result<R>;
     static fail<R = unknown>(err: string | Error): Result<R>;
 }

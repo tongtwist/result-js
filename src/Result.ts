@@ -1,4 +1,5 @@
-import type {IResult, TResultCreationProperties} from "./Result.spec"
+import type {TResultCreationProperties} from "./CreationProperties.spec"
+import type {IResult} from "./Result.spec"
 
 /**
  * A Result class
@@ -41,7 +42,7 @@ export class Result<R = unknown> implements IResult<R> {
 		return !this._ok
 	}
 
-	static success<R = unknown>(value: R): Result<R> {
+	static success<R>(value: R): Result<R> {
 		return new Result<R>([value, null])
 	}
 

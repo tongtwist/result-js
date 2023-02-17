@@ -3,12 +3,6 @@ import {Result} from "./Result"
 /**
  * Shape spec
  */
-export type TSuccessResultCreationProperties<R, N> = [R, N]
-export type TErrorResultCreationProperties<N> = [N, string | Error]
-export type TResultCreationProperties<R = unknown, N = null> =
-	| TSuccessResultCreationProperties<R, N>
-	| TErrorResultCreationProperties<N>
-
 export interface IResult<R> {
 	readonly error?: Error
 	readonly value?: R
