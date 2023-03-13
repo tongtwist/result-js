@@ -8,19 +8,19 @@ export declare function resultSchema<R = unknown>(resultTypeSchema?: z.ZodType<R
     isError: z.ZodBoolean;
     isFailure: z.ZodBoolean;
 }, "strip", z.ZodTypeAny, {
-    value?: unknown;
-    error?: Error | undefined;
     isOk: boolean;
     isSuccess: boolean;
     isError: boolean;
     isFailure: boolean;
+    error?: Error | undefined;
+    value?: unknown;
 }, {
-    value?: unknown;
-    error?: Error | undefined;
     isOk: boolean;
     isSuccess: boolean;
     isError: boolean;
     isFailure: boolean;
+    error?: Error | undefined;
+    value?: unknown;
 }>;
 export type TResultSchema<R = unknown> = z.infer<ReturnType<typeof resultSchema<R>>>;
 export declare class Result<R = unknown> implements IResult<R> {

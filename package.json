@@ -56,6 +56,6 @@
 		"@theloop/sheldon-node-module": "^0.1.0"
 	},
 	"dependencies": {
-		"zod": "~3.20.6"
+		"zod": "~3.21.4"
 	}
 }

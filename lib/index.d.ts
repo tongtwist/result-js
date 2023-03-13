@@ -38,19 +38,19 @@ declare module "Result" {
         isError: z.ZodBoolean;
         isFailure: z.ZodBoolean;
     }, "strip", z.ZodTypeAny, {
-        value?: unknown;
-        error?: Error | undefined;
         isOk: boolean;
         isSuccess: boolean;
         isError: boolean;
         isFailure: boolean;
+        error?: Error | undefined;
+        value?: unknown;
     }, {
-        value?: unknown;
-        error?: Error | undefined;
         isOk: boolean;
         isSuccess: boolean;
         isError: boolean;
         isFailure: boolean;
+        error?: Error | undefined;
+        value?: unknown;
     }>;
     export type TResultSchema<R = unknown> = z.infer<ReturnType<typeof resultSchema<R>>>;
     /**
