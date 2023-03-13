@@ -53,6 +53,17 @@
 		"node": ">= 16.0.0"
 	},
 	"devDependencies": {
+		"@jest/globals": "^29.3.1",
+		"@types/jest": "^29.2.4",
+		"@types/node": "^18.11.18",
+		"@types/uuid": "^9.0.0",
+		"chai": "^4.3.7",
+		"jest": "^29.3.1",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^3.0.2",
+		"ts-jest": "^29.0.3",
+		"ts-node": "^10.9.1",
+		"typescript": "^4.9.5",
 		"@theloop/sheldon-node-module": "^0.1.0"
 	},
 	"dependencies": {
