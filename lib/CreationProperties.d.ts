@@ -1,4 +1,0 @@
-import { z } from "zod";
-export declare function successResultCreationPropertiesSchema<T, N = null>(resultTypeSchema: z.ZodType<T>, emptyTypeSchema?: z.ZodType<N>): z.ZodTuple<[z.ZodType<T, z.ZodTypeDef, T>, z.ZodType<N, z.ZodTypeDef, N> | z.ZodNull], null>;
-export declare function errorResultCreationPropertiesSchema<N = null>(emptyTypeSchema?: z.ZodType<N>): z.ZodTuple<[z.ZodNull | z.ZodType<N, z.ZodTypeDef, N>, z.ZodUnion<[z.ZodString, z.ZodType<Error, z.ZodTypeDef, Error>]>], null>;
-export declare function resultCreationPropertiesSchema<R, N = null>(resultTypeSchema: z.ZodType<R>, emptyTypeSchema?: z.ZodType<N>): z.ZodUnion<[z.ZodTuple<[z.ZodType<R, z.ZodTypeDef, R>, z.ZodNull | z.ZodType<N, z.ZodTypeDef, N>], null>, z.ZodTuple<[z.ZodNull | z.ZodType<N, z.ZodTypeDef, N>, z.ZodUnion<[z.ZodString, z.ZodType<Error, z.ZodTypeDef, Error>]>], null>]>;

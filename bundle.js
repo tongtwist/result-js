@@ -45,7 +45,7 @@ async function main() {
 		.doNpm({action: "run", args: ["build"]})
 		.doNpm({action: "run", args: ["test:publish"]})
 		.executeAndContinue()
-		.doGenerateBundle({browserFile: "index.esm.js", tsconfig: "./tsconfig.lib.json"})
+		.doGenerateBundle({browserFile: "index.esm.js", tsconfig: "./tsconfig.json"})
 		.doGenerateTSTypes({
 			packageJson: [".", "package.json"],
 			esModuleInterop: true,

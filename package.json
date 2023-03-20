@@ -1,6 +1,6 @@
 {
 	"name": "@tongtwist/result-js",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"author": {
 		"name": "Tongtwist",
 		"url": "https://github.com/tongtwist"
@@ -37,14 +37,14 @@
 		"clean:lib": "rimraf lib",
 		"clean:spec-js": "rimraf lib/**/*.spec.js && rimraf lib/**/*.js.map",
 		"clean": "run-p clean:docs clean:lib",
-		"preversion": "run-s bundle test:publish",
-		"version": "git add -A src lib docs tests",
+		"preversion": "run-s bundle",
+		"version": "git add -A src lib docs coverage.json && git commit -m \"Bump version to v$npm_package_version\"",
 		"postversion": "git push && git push --tags",
 		"publish:patch": "npm version patch && npm publish",
 		"publish:minor": "npm version minor && npm publish",
 		"publish:major": "npm version major && npm publish",
-		"test:publish": "jest --coverage --json > coverage.json",
-		"test": "jest",
+		"test:publish": "jest --no-cache --passWithNoTests --coverage --json > coverage.json",
+		"test": "jest --no-cache --passWithNoTests",
 		"moveCoverage": "mv coverage docs/",
 		"watch:src": "tsc --watch --noEmit",
 		"watch": "run-p watch:*"
