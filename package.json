@@ -38,7 +38,7 @@
 		"clean:spec-js": "rimraf lib/**/*.spec.js && rimraf lib/**/*.js.map",
 		"clean": "run-p clean:docs clean:lib",
 		"preversion": "run-s bundle",
-		"version": "git add -A src lib docs coverage.json && git commit -m \"Bump version to v$npm_package_version\"",
+		"version": "git add -A src lib docs README.md && git commit -m \"Bump version to v$npm_package_version\"",
 		"postversion": "git push && git push --tags",
 		"publish:patch": "npm version patch && npm publish",
 		"publish:minor": "npm version minor && npm publish",
