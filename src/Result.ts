@@ -1,5 +1,4 @@
 import {z} from "zod"
-import type {TResultCreationProperties} from "./CreationProperties.spec"
 import type {IResult} from "./Result.spec"
 
 export function resultSchema<R = unknown>(resultTypeSchema?: z.ZodType<R>) {
@@ -26,12 +25,12 @@ export class Result<R = unknown> implements IResult<R> {
 	private readonly _value?: R
 	private readonly _ok: boolean
 
-	private constructor(props: TResultCreationProperties<R>) {
-		this._ok = !props[1]
+	private constructor(v?: R, e?: Error | string) {
+		this._ok = typeof e === "undefined" && typeof v !== "undefined"
 		if (this._ok) {
-			this._value = props[0]!
+			this._value = v
 		} else {
-			this._error = typeof props[1]! === "string" ? new Error(props[1]!) : props[1]!
+			this._error = typeof e === "string" ? new Error(e) : e
 		}
 		Object.freeze(this)
 	}
@@ -56,10 +55,15 @@ export class Result<R = unknown> implements IResult<R> {
 	}
 
 	static success<R>(value: R): Result<R> {
-		return new Result<R>([value, null])
+		return new Result<R>(value)
 	}
 
 	static fail<R = unknown>(err: string | Error): Result<R> {
-		return new Result<R>([null, err])
+		return new Result<R>(undefined, err)
+	}
+
+	static failIn<R = unknown>(where: string, err: string | Error): Result<R> {
+		const msg = typeof err === "string" ? err : err.message
+		return Result.fail(`${where}: ${msg}`)
 	}
 }
