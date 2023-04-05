@@ -1,69 +1,135 @@
 import {z} from "zod"
-import type {IResult} from "./Result.spec"
+import type {TSuccessResultSchema, TFailureResultSchema, ISuccessResult, IFailureResult, IResult} from "./Result.spec"
 
-export function resultSchema<R = unknown>(resultTypeSchema?: z.ZodType<R>) {
-	return z.object({
-		error: z.instanceof(Error).optional(),
-		value: (resultTypeSchema ?? z.unknown()).optional(),
-		isOk: z.boolean(),
-		isSuccess: z.boolean(),
-		isError: z.boolean(),
-		isFailure: z.boolean(),
-	})
-}
-export type TResultSchema<R = unknown> = z.infer<ReturnType<typeof resultSchema<R>>>
-
-/**
- * A Result class
- *
- * @export
- * @class Result
- * @template R Type of the value of a successfull result
- */
-export class Result<R = unknown> implements IResult<R> {
-	private readonly _error?: Error
-	private readonly _value?: R
-	private readonly _ok: boolean
-
-	private constructor(v?: R, e?: Error | string) {
-		this._ok = typeof e === "undefined" && typeof v !== "undefined"
-		if (this._ok) {
-			this._value = v
-		} else {
-			this._error = typeof e === "string" ? new Error(e) : e
-		}
+export class SuccessResult<R = unknown> implements ISuccessResult<R> {
+	private constructor(private readonly _value: R) {
 		Object.freeze(this)
 	}
 
-	get error(): Error | undefined {
-		return this._error
-	}
-	get value(): R | undefined {
+	get value(): R {
 		return this._value
 	}
-	get isOk(): boolean {
-		return this._ok
+	get isOk(): true {
+		return true
 	}
-	get isSuccess(): boolean {
-		return this._ok
+	get isSuccess(): true {
+		return true
 	}
-	get isError(): boolean {
-		return !this._ok
+	get isError(): false {
+		return false
 	}
-	get isFailure(): boolean {
-		return !this._ok
-	}
-
-	static success<R>(value: R): Result<R> {
-		return new Result<R>(value)
+	get isFailure(): false {
+		return false
 	}
 
-	static fail<R = unknown>(err: string | Error): Result<R> {
-		return new Result<R>(undefined, err)
+	private static _serializedRawShape<R, RS extends z.ZodType<R> = z.ZodType<R>>(resultTypeSchema: RS): z.ZodRawShape {
+		return {
+			v: resultTypeSchema,
+			error: z.never(),
+			isOk: z.literal(true).optional(),
+			isSuccess: z.literal(true).optional(),
+			isError: z.literal(false).optional(),
+			isFailure: z.literal(false).optional(),
+		}
 	}
 
-	static failIn<R = unknown>(where: string, err: string | Error): Result<R> {
+	static serializedSchema<R, RS extends z.ZodType<R> = z.ZodType<R>>(
+		resultTypeSchema: RS,
+	): z.ZodObject<ReturnType<typeof SuccessResult._serializedRawShape<RS>>> {
+		return z.object(SuccessResult._serializedRawShape<R>(resultTypeSchema))
+	}
+
+	static validateSerialized<R, RS extends z.ZodType<R> = z.ZodType<R>>(
+		j: any,
+		resultTypeSchema: RS,
+	): j is TSuccessResultSchema<RS> {
+		return SuccessResult.serializedSchema(resultTypeSchema).safeParse(j).success
+	}
+
+	static of<R = unknown>(value: R): ISuccessResult<R> {
+		return new SuccessResult<R>(value)
+	}
+
+	static fromSerialized<R = unknown, RS extends z.ZodType<R> = z.ZodType<R>>(
+		j: any,
+		resultTypeSchema: RS,
+	): IResult<ISuccessResult<R>> {
+		return SuccessResult.validateSerialized<R, RS>(j, resultTypeSchema)
+			? SuccessResult.of(SuccessResult.of<R>(j.v))
+			: FailureResult.of(`Invalid serialized result: ${JSON.stringify(j)}`)
+	}
+}
+
+export class FailureResult implements IFailureResult {
+	private constructor(private readonly _error: Error) {
+		Object.freeze(this)
+	}
+
+	get error(): Error {
+		return this._error
+	}
+	get isOk(): false {
+		return false
+	}
+	get isSuccess(): false {
+		return false
+	}
+	get isError(): true {
+		return true
+	}
+	get isFailure(): true {
+		return true
+	}
+
+	static readonly serializedSchema = z.object({
+		v: z.never(),
+		error: z.string(),
+		isOk: z.literal(false).optional(),
+		isSuccess: z.literal(false).optional(),
+		isError: z.literal(true).optional(),
+		isFailure: z.literal(true).optional(),
+	})
+
+	static validateSerialized(j: any): j is TFailureResultSchema {
+		return FailureResult.serializedSchema.safeParse(j).success
+	}
+
+	static of(err: string | Error): IFailureResult {
+		return new FailureResult(typeof err === "string" ? new Error(err) : err)
+	}
+
+	static fromSerialized(j: any): IResult<IFailureResult> {
+		return FailureResult.validateSerialized(j)
+			? SuccessResult.of(FailureResult.of(j.error))
+			: FailureResult.of(`Invalid serialized result: ${JSON.stringify(j)}`)
+	}
+}
+
+export class Result {
+	static isOk<R>(r: IResult<R>): r is ISuccessResult<R> {
+		return r.isOk
+	}
+	static isSuccess<R>(r: IResult<R>): r is ISuccessResult<R> {
+		return r.isOk
+	}
+
+	static isError<R>(r: IResult<R>): r is IFailureResult {
+		return r.isError
+	}
+	static isFailure<R>(r: IResult<R>): r is IFailureResult {
+		return r.isError
+	}
+
+	static success<R>(value: R): IResult<R> {
+		return SuccessResult.of<R>(value)
+	}
+
+	static fail<R = unknown>(err: string | Error): IResult<R> {
+		return FailureResult.of(err)
+	}
+
+	static failIn<R = unknown>(where: string, err: string | Error): IResult<R> {
 		const msg = typeof err === "string" ? err : err.message
-		return Result.fail(`${where}: ${msg}`)
+		return FailureResult.of(`${where}: ${msg}`)
 	}
 }
